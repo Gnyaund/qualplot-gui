@@ -6,12 +6,18 @@ export default function Uploader() {
     const [path, setPath] = useState("")
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPath(() => e.target.value)
-    }//仕様でfakepathになる
+    }//仕様でfakepathになる, pathはjsonに書き込み
     return(
         <div>
-            <Button variant = "outlined" color="secondary">
-                Scenario File
-                <input value = {path} type = "file" hidden onChange={handleChange} />
+            <Button variant="outlined" component="label" color="secondary">
+            Scenario File
+            <input
+                type="file"
+                hidden
+                value={path}
+                accept=".config,.display,.nodes,.app"
+                onChange={handleChange}
+            />
             </Button>
         </div>
     )

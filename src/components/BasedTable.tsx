@@ -1,11 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
 import { CssBaseline, Grid } from "@mui/material";
 import { Box, Container } from "@mui/system";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from '@mui/material/styles'
+import { Button } from "@mui/material";
 import "./../BasedTable.css";
 import VariableList from "./VariableList";
 import Uploader from "./Uploader";
+
+import IconButton from '@mui/material/IconButton';
+import SettingsModalWindow from "./SettingsModalWindow";
 
 const darkTheme = createTheme({
     palette: {
@@ -15,6 +19,16 @@ const darkTheme = createTheme({
 
 //Uploader呼び出すとイベントが発生しないので子から親にイベント渡さないといけない？
 export default function BasedTable(){
+    const [path, setPath] = useState("")
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPath(() => e.target.value)
+    }
+
+    const [showSettings, setShowSettings] = useState(false);
+    const ShowSettings = () => {
+        setShowSettings(true);
+    }
+
     return(
         <React.Fragment>
             <CssBaseline />
@@ -33,9 +47,17 @@ export default function BasedTable(){
                         </Grid>
                         <Grid>
                             <Box sx={{display:"flex", padding: "10px", }}>
-                                <Uploader/>
+                                <Uploader />
                             </Box>
                             
+                        </Grid>
+                        <Grid>
+                            <Button variant="contained" component="label" color="secondary">
+                                Start
+                            </Button>
+                        </Grid>
+                        <Grid>
+                            <SettingsModalWindow></SettingsModalWindow>
                         </Grid>
                     </Grid>
                 </Box>
@@ -55,4 +77,10 @@ export default function BasedTable(){
                         </Grid>
                     </Grid>
                 </Box>
+
+                            <IconButton color="secondary" aria-label="settings" onClick={ShowSettings}>
+                                <SettingsApplicationsOutlinedIcon />
+                                <SettingsModalWindow showflag={showSettings} setShowSettings={setShowSettings}/>
+                            </IconButton>
+
 */
