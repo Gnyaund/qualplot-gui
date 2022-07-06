@@ -27,11 +27,22 @@ const createWindow = () => {
 
 };
 
+const handleFileOpen = async () => {
+  const { canceled, filePaths } = await dialog.showOpenDialog(null)
+  if(canceled){
+    return 0;
+  }else{
+    return filePaths[0];
+  }
+}
+
+
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();
 });
 
 app.whenReady().then(() => {
+  ipcMain.handle("dialog:openFile", handleFileOpen)
   createWindow();
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
