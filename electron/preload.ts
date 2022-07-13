@@ -8,5 +8,9 @@ import {
 
 contextBridge.exposeInMainWorld("electronAPI", {
   openFile: () => ipcRenderer.invoke("dialog:openFile"),
-  decideNum: () => ipcRenderer.invoke("get:decideNum"),
+  stSeed: (startSeed : number) => ipcRenderer.send("stseed", startSeed),
+  endSeed: (endSeed : number) => ipcRenderer.send("endseed", endSeed),
+  maxNode: (maxNode : number) => ipcRenderer.send("maxnode", maxNode),
 });
+
+

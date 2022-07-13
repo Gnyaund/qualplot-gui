@@ -50,10 +50,35 @@ const handleFileOpen = async () => {
   }
 };
 
-const numReminder: any = async (args) => {
-  const num = args;
-  qualplot.start_seed = num;
-};
+const stSeedSaver = async (stSeed : number) => {
+  qualplot.start_seed = stSeed;
+  const settings: string | ArrayBufferView = JSON.stringify(
+    qualplot,
+    undefined,
+    4
+  );
+  fs.writeFileSync("./json/qualplot.json", settings);
+}
+
+const endSeedSaver = async (endSeed : number) => {
+  qualplot.end_seed = endSeed;
+  const settings: string | ArrayBufferView = JSON.stringify(
+    qualplot,
+    undefined,
+    4
+  );
+  fs.writeFileSync("./json/qualplot.json", settings);
+}
+
+const maxNodeSaver = async (maxNode : number) => {
+  qualplot.max_node = maxNode;
+  const settings: string | ArrayBufferView = JSON.stringify(
+    qualplot,
+    undefined,
+    4
+  );
+  fs.writeFileSync("./json/qualplot.json", settings);
+}
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();
@@ -61,9 +86,9 @@ app.on("window-all-closed", () => {
 
 app.whenReady().then(() => {
   ipcMain.handle("dialog:openFile", handleFileOpen);
-  ipcMain.handle("get:decideNum", (event, args) => {
-    numReminder(args);
-  });
+  ipcMain.on("stseed", (event, startSeed: number) => stSeedSaver(startSeed));
+  ipcMain.on("endseed",(event, endSeed: number) => endSeedSaver(endSeed));
+  ipcMain.on("maxnode",(event, maxNode: number) => maxNodeSaver(maxNode));
   /*
   ipcMain.on("st-num", (event, arg) => {
     const num = arg;
