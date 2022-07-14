@@ -34,23 +34,51 @@ const createWindow = () => {
   }
 };
 
-const handleFileOpen = async () => {
+const handleFileOpen = async (identifier: string) => {
   const { canceled, filePaths } = await dialog.showOpenDialog(null);
-  if (canceled) {
-    return 0;
-  } else {
-    qualplot.scenario_file_path = filePaths[0];
-    const settings: string | ArrayBufferView = JSON.stringify(
-      qualplot,
-      undefined,
-      4
-    );
-    fs.writeFileSync("./json/qualplot.json", settings);
+  if (canceled) return 0;
+  else {
+    if (identifier === "scenarioPath") setScenarioFile(filePaths[0]);
+
     return filePaths[0];
   }
 };
 
-const stSeedSaver = async (stSeed : number) => {
+const handleFolderOpen = async (identifier: string) => {
+  const { canceled, filePaths } = await dialog.showOpenDialog(null, {
+    properties: ["openDirectory"],
+  });
+  if (canceled) return 0;
+  else {
+    if (identifier === "saveFolder") setSaveFolder(filePaths[0]);
+  }
+
+  return filePaths[0];
+};
+
+const setSaveFolder = async (filePath: string) => {
+  qualplot.save = filePath;
+  const settings: string | ArrayBufferView = JSON.stringify(
+    qualplot,
+    undefined,
+    4
+  );
+  fs.writeFileSync("./json/qualplot.json", settings);
+  return 0;
+};
+
+const setScenarioFile = async (filePath: string) => {
+  qualplot.scenario_file_path = filePath;
+  const settings: string | ArrayBufferView = JSON.stringify(
+    qualplot,
+    undefined,
+    4
+  );
+  fs.writeFileSync("./json/qualplot.json", settings);
+  return 0;
+};
+
+const stSeedSaver = async (stSeed: number) => {
   qualplot.start_seed = stSeed;
   const settings: string | ArrayBufferView = JSON.stringify(
     qualplot,
@@ -58,9 +86,9 @@ const stSeedSaver = async (stSeed : number) => {
     4
   );
   fs.writeFileSync("./json/qualplot.json", settings);
-}
+};
 
-const endSeedSaver = async (endSeed : number) => {
+const endSeedSaver = async (endSeed: number) => {
   qualplot.end_seed = endSeed;
   const settings: string | ArrayBufferView = JSON.stringify(
     qualplot,
@@ -68,9 +96,9 @@ const endSeedSaver = async (endSeed : number) => {
     4
   );
   fs.writeFileSync("./json/qualplot.json", settings);
-}
+};
 
-const maxNodeSaver = async (maxNode : number) => {
+const maxNodeSaver = async (maxNode: number) => {
   qualplot.max_node = maxNode;
   const settings: string | ArrayBufferView = JSON.stringify(
     qualplot,
@@ -78,17 +106,20 @@ const maxNodeSaver = async (maxNode : number) => {
     4
   );
   fs.writeFileSync("./json/qualplot.json", settings);
-}
+};
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();
 });
 
 app.whenReady().then(() => {
-  ipcMain.handle("dialog:openFile", handleFileOpen);
+  ipcMain.handle("dialog:openFile", (event, identifier: string) => {
+    if (identifier === "scenarioPath") handleFileOpen(identifier);
+    if (identifier === "saveFolder") handleFolderOpen(identifier);
+  });
   ipcMain.on("stseed", (event, startSeed: number) => stSeedSaver(startSeed));
-  ipcMain.on("endseed",(event, endSeed: number) => endSeedSaver(endSeed));
-  ipcMain.on("maxnode",(event, maxNode: number) => maxNodeSaver(maxNode));
+  ipcMain.on("endseed", (event, endSeed: number) => endSeedSaver(endSeed));
+  ipcMain.on("maxnode", (event, maxNode: number) => maxNodeSaver(maxNode));
   /*
   ipcMain.on("st-num", (event, arg) => {
     const num = arg;

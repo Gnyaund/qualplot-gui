@@ -5,7 +5,7 @@ export default function Uploader() {
   const [path, setPath] = useState("");
   const handleChange = async () => {
     //setPath(() => e.target.value)
-    const filePath: string = await window.electronAPI.openFile();
+    const filePath: string = await window.electronAPI.openFile("scenarioPath");
     setPath(() => filePath);
   }; //仕様でfakepathになる, pathはjsonに書き込み
 

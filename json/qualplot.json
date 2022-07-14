@@ -1,7 +1,7 @@
 {
-    "save": "",
-    "scenario_file_path": "/home/gnya/wks/qualplot-gui/README.md",
-    "start_seed": 1,
-    "end_seed": 4,
-    "max_node": 3
+  "save": "",
+  "scenario_file_path": "",
+  "start_seed": 1,
+  "end_seed": 4,
+  "max_node": 3
 }

@@ -8,7 +8,7 @@ import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
-import { TextField, Box, Grid } from "@mui/material";
+import { TextField, Box, Grid, Paper } from "@mui/material";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import SettingsApplicationsOutlinedIcon from "@mui/icons-material/SettingsApplicationsOutlined";
 type Props = {
@@ -56,7 +56,7 @@ const BootstrapSettingWindow = (props: DialogTitleProps) => {
 
 export default function SettingsModalWindow() {
   const [open, setOpen] = useState(false);
-
+  const [path, setPath] = useState("");
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -65,6 +65,10 @@ export default function SettingsModalWindow() {
     setOpen(false);
   };
 
+  const handleClickOpenFolder = async () => {
+    const savePath: string = await window.electronAPI.openFile("saveFolder");
+    setPath(() => savePath);
+  };
   return (
     <div>
       <IconButton
@@ -89,7 +93,7 @@ export default function SettingsModalWindow() {
               <IconButton
                 color="secondary"
                 aria-label="settings"
-                onClick={handleClickOpen}
+                onClick={handleClickOpenFolder}
                 size="large"
                 sx={{ margin: 0.5 }}
               >
@@ -97,7 +101,7 @@ export default function SettingsModalWindow() {
               </IconButton>
             </Grid>
             <Grid item xs={9} md={8}>
-              <TextField fullWidth label="Save to.." id="save-to" />
+              <Paper sx={{ margin: 2 }}>{path}</Paper>
             </Grid>
           </Grid>
           <Box sx={{ width: 500, maxWidth: "100%" }}></Box>
