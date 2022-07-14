@@ -1,7 +1,8 @@
 {
-  "save": "",
-  "scenario_file_path": "",
-  "start_seed": 1,
-  "end_seed": 4,
-  "max_node": 3
+    "save": "C:\\Users\\sawam\\Documents",
+    "scenario_file_path": "C:\\Users\\sawam\\Documents\\window.xlaunch",
+    "start_seed": 1,
+    "end_seed": 4,
+    "max_node": 3,
+    "qualnet_path": "..\\..\\..\\..\\..\\..\\qualnet\\7.4\\bin\\qualnet.exe"
 }

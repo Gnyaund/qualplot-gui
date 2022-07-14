@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
-from lib.makecsv import MakeCSV
+from makecsv import MakeCSV
 
 class DataPlot(MakeCSV):
     def __init__(self, start, end, node, PATH):

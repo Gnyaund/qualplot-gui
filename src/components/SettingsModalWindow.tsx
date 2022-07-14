@@ -65,10 +65,14 @@ export default function SettingsModalWindow() {
     setOpen(false);
   };
 
+  //2回目起動時に設定画面にpathが出ないので歯車押したときにIPCでパスを持ってくるようにすること
+  //環境変数指定？でデフォルトパスを設定しておく　できるかわからん
+  //Scenario FileのとことStartのとこに実行注は何かしらの変化をつけたい
   const handleClickOpenFolder = async () => {
-    const savePath: string = await window.electronAPI.openFile("saveFolder");
+    const savePath: string = await window.electronAPI.openFolder("saveFolder");
     setPath(() => savePath);
   };
+
   return (
     <div>
       <IconButton
@@ -88,7 +92,7 @@ export default function SettingsModalWindow() {
           Settings
         </BootstrapSettingWindow>
         <DialogContent dividers>
-          <Grid container spacing={1}>
+          <Grid container spacing={2}>
             <Grid item xs={2} md={6}>
               <IconButton
                 color="secondary"
@@ -103,15 +107,30 @@ export default function SettingsModalWindow() {
             <Grid item xs={9} md={8}>
               <Paper sx={{ margin: 2 }}>{path}</Paper>
             </Grid>
+            <Grid item xs={2} md={6}>
+              <IconButton
+                color="secondary"
+                aria-label="settings"
+                onClick={handleClickOpenFolder}
+                size="large"
+                sx={{ margin: 0.5 }}
+              >
+                <DriveFolderUploadOutlinedIcon />
+              </IconButton>
+            </Grid>
+            <Grid item xs={9} md={8}>
+              <Paper sx={{ margin: 2 }}>Placeholder Value</Paper>
+            </Grid>
           </Grid>
-          <Box sx={{ width: 500, maxWidth: "100%" }}></Box>
         </DialogContent>
+      </BootstrapDialog>
+    </div>
+  );
+}
+/*
         <DialogActions>
           <Button autoFocus onClick={handleClose} color="secondary">
             Save Changes
           </Button>
         </DialogActions>
-      </BootstrapDialog>
-    </div>
-  );
-}
+        */

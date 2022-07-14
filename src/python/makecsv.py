@@ -2,7 +2,7 @@ import os
 import sqlite3
 import shutil
 import csv
-from lib.qualnet import Qualnet
+from qualnet import Qualnet
 
 
 class MakeCSV(Qualnet):

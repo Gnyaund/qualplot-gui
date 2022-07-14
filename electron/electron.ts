@@ -52,7 +52,7 @@ const handleFolderOpen = async (identifier: string) => {
   else {
     if (identifier === "saveFolder") setSaveFolder(filePaths[0]);
   }
-
+  console.log(filePaths[0]);
   return filePaths[0];
 };
 
@@ -64,7 +64,7 @@ const setSaveFolder = async (filePath: string) => {
     4
   );
   fs.writeFileSync("./json/qualplot.json", settings);
-  return 0;
+  return filePath;
 };
 
 const setScenarioFile = async (filePath: string) => {
@@ -113,10 +113,12 @@ app.on("window-all-closed", () => {
 });
 
 app.whenReady().then(() => {
-  ipcMain.handle("dialog:openFile", (event, identifier: string) => {
-    if (identifier === "scenarioPath") handleFileOpen(identifier);
-    if (identifier === "saveFolder") handleFolderOpen(identifier);
-  });
+  ipcMain.handle("dialog:openFile", (event, identifier: string) =>
+    handleFileOpen(identifier)
+  );
+  ipcMain.handle("dialog:openFolder", (event, identifier: string) =>
+    handleFolderOpen(identifier)
+  );
   ipcMain.on("stseed", (event, startSeed: number) => stSeedSaver(startSeed));
   ipcMain.on("endseed", (event, endSeed: number) => endSeedSaver(endSeed));
   ipcMain.on("maxnode", (event, maxNode: number) => maxNodeSaver(maxNode));

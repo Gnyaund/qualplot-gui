@@ -1,19 +1,15 @@
-from lib.dataplot import DataPlot
+from dataplot import DataPlot
 import sys
 import json
 
 if __name__ == "__main__":
-    jopen = open(".\\config.json", "r")
+    jopen = open(".\\..\\json\\qualplot.json", "r")
     config = json.load(jopen)
     QUALNET_PATH = config["qualnet_path"]
-    args = sys.argv
     
-    print("SEED START Number ->")
-    start = args[0]
-    print("SEED END Number ->")
-    end = args[1]
-    print("MAX NODE Number ->")
-    node = args[2]
+    start = config["start_seed"]
+    end = config["end_seed"]
+    node = config["max_node"]
 
 
     c = DataPlot(start, end, node, QUALNET_PATH)
@@ -21,15 +17,17 @@ if __name__ == "__main__":
     c.nameResolver()
     c.qualFilesCopy()
     c.executeQualnet()
-    
+    print("Qualnet Done")
     c.makeCsvFolder()
     c.extractSendingPacket()
-
+    print("CSV Done")
     c.makeAnalysisFolder()
     c.executePlot()
+    print("Individual Plot Done")
 
     c.makeCombinegraphFolder()
     c.combinePlot()
-
+    print("Combining Plot Done")
     c.deleteCopyFiles()
     c.moveArchives()
+    print("All Done")
