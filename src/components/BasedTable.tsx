@@ -10,7 +10,7 @@ import VariableList from "./VariableList";
 import Uploader from "./Uploader";
 import IconButton from "@mui/material/IconButton";
 import SettingsModalWindow from "./SettingsModalWindow";
-
+import StartButton from "./StartButton";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -34,17 +34,18 @@ export default function BasedTable() {
     setLoading(true);
   };
 
+
+
   return (
     <React.Fragment>
       <CssBaseline />
       <ThemeProvider theme={darkTheme}>
-        <Container>
+        <Container >
           <Box
             sx={{
-              bgcolor: "#1E1E1E",
               width: "100%",
-              height: "auto",
-              paddingBottom: "20px",
+              height: "500px",
+              
             }}
           >
             <Grid
@@ -61,7 +62,10 @@ export default function BasedTable() {
                   fontFamily: "ROLAchan",
                 }}
               >
-                <Box sx={{ paddingBottom: "50px" }}>QualPlot</Box>
+                <Box sx={{ paddingBottom: "50px" }}>
+                  QualPlot
+                  <br></br>
+                  </Box>
               </Grid>
               <Grid sx={{ bgcolor: "#252526", borderRadius: "15px" }}>
                 <VariableList />
@@ -72,9 +76,7 @@ export default function BasedTable() {
                 </Box>
               </Grid>
               <Grid>
-                <Button variant="contained" component="label" color="secondary">
-                  Start
-                </Button>
+                <StartButton />
               </Grid>
               <Grid>
                 <SettingsModalWindow></SettingsModalWindow>

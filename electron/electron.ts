@@ -9,11 +9,12 @@ import * as path from "path";
 import * as url from "url";
 import * as fs from "fs";
 import qualplot from "./../json/qualplot.json";
+import * as ChildProcess from "child_process";
 
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 800,
-    height: 600,
+    height: 500,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
@@ -39,6 +40,7 @@ const handleFileOpen = async (identifier: string) => {
   if (canceled) return 0;
   else {
     if (identifier === "scenarioPath") setScenarioFile(filePaths[0]);
+    if (identifier === "qualpath")  setQualnetExePath(filePaths[0]);
 
     return filePaths[0];
   }
@@ -55,6 +57,7 @@ const handleFolderOpen = async (identifier: string) => {
   console.log(filePaths[0]);
   return filePaths[0];
 };
+
 
 const setSaveFolder = async (filePath: string) => {
   qualplot.save = filePath;
@@ -108,6 +111,30 @@ const maxNodeSaver = async (maxNode: number) => {
   fs.writeFileSync("./json/qualplot.json", settings);
 };
 
+const setQualnetExePath = async (path : string) => {
+  qualplot.qualnet_path = path;
+  const settings : string | ArrayBufferView = JSON.stringify(
+    qualplot,
+    undefined,
+    4
+  )
+  fs.writeFileSync("./json/qualplot.json", settings);
+}
+
+const pythonPipeLine = async () => {
+  ChildProcess.exec("python3 ./src/python/main.py",
+  (error : ChildProcess.ExecException | null, stdout: string, stderr: string) =>{
+      if(error){
+          console.error("stderr", stderr);
+          throw error;
+      }
+      console.log(stdout)
+      if(stdout === "Done"){
+          return 0;
+      }
+  });
+}
+
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();
 });
@@ -119,6 +146,10 @@ app.whenReady().then(() => {
   ipcMain.handle("dialog:openFolder", (event, identifier: string) =>
     handleFolderOpen(identifier)
   );
+  ipcMain.handle("jsonshare", (event) => {
+    return qualplot;
+  })
+  ipcMain.handle("pyexec", (event) => pythonPipeLine());
   ipcMain.on("stseed", (event, startSeed: number) => stSeedSaver(startSeed));
   ipcMain.on("endseed", (event, endSeed: number) => endSeedSaver(endSeed));
   ipcMain.on("maxnode", (event, maxNode: number) => maxNodeSaver(maxNode));

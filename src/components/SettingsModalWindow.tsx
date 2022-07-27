@@ -11,10 +11,22 @@ import Typography from "@mui/material/Typography";
 import { TextField, Box, Grid, Paper } from "@mui/material";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import SettingsApplicationsOutlinedIcon from "@mui/icons-material/SettingsApplicationsOutlined";
+import RouterIcon from '@mui/icons-material/Router';
+
 type Props = {
   showflag: boolean;
   setShowSettings: Function;
 };
+
+interface Settings {
+    save: string;
+    scenario_file_path: string;
+    start_seed: number;
+    end_seed: number;
+    max_node: number;
+    qualnet_path: string;
+    default_path: string;
+}
 export interface DialogTitleProps {
   id: string;
   children?: React.ReactNode;
@@ -57,8 +69,10 @@ const BootstrapSettingWindow = (props: DialogTitleProps) => {
 export default function SettingsModalWindow() {
   const [open, setOpen] = useState(false);
   const [path, setPath] = useState("");
+  const [qpath, setqPath] = useState("");
   const handleClickOpen = () => {
     setOpen(true);
+    handleClickgetJSONData();
   };
 
   const handleClose = () => {
@@ -68,11 +82,21 @@ export default function SettingsModalWindow() {
   //2回目起動時に設定画面にpathが出ないので歯車押したときにIPCでパスを持ってくるようにすること
   //環境変数指定？でデフォルトパスを設定しておく　できるかわからん
   //Scenario FileのとことStartのとこに実行注は何かしらの変化をつけたい
+  const handleClickgetJSONData = async () => {
+    const data = await window.electronAPI.jsonShare();
+    //console.log(data.qualnet_path)
+    setPath(() => data.save)
+    setqPath(() => data.qualnet_path)
+  }
   const handleClickOpenFolder = async () => {
     const savePath: string = await window.electronAPI.openFolder("saveFolder");
     setPath(() => savePath);
   };
 
+  const handleClickOpenQualNet = async () => {
+    const qualPath: string = await window.electronAPI.openFile("qualpath");
+    setqPath(() => qualPath);
+  }
   return (
     <div>
       <IconButton
@@ -111,15 +135,15 @@ export default function SettingsModalWindow() {
               <IconButton
                 color="secondary"
                 aria-label="settings"
-                onClick={handleClickOpenFolder}
+                onClick={handleClickOpenQualNet}
                 size="large"
                 sx={{ margin: 0.5 }}
               >
-                <DriveFolderUploadOutlinedIcon />
+                <RouterIcon />
               </IconButton>
             </Grid>
             <Grid item xs={9} md={8}>
-              <Paper sx={{ margin: 2 }}>Placeholder Value</Paper>
+              <Paper sx={{ margin: 2 }}>{qpath}</Paper>
             </Grid>
           </Grid>
         </DialogContent>

@@ -8,9 +8,8 @@ import BasedTable from './components/BasedTable';
 function App() {
   return (
     <div className="App">
-      <header>
         <BasedTable />
-      </header>
+
     </div>
   );
 }
