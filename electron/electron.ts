@@ -10,11 +10,15 @@ import * as url from "url";
 import * as fs from "fs";
 import qualplot from "./../json/qualplot.json";
 import * as ChildProcess from "child_process";
+import { Buffer } from "buffer";
 
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 800,
     height: 500,
+
+    maxWidth: 801,
+    maxHeight: 501,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
@@ -40,7 +44,7 @@ const handleFileOpen = async (identifier: string) => {
   if (canceled) return 0;
   else {
     if (identifier === "scenarioPath") setScenarioFile(filePaths[0]);
-    if (identifier === "qualpath")  setQualnetExePath(filePaths[0]);
+    if (identifier === "qualpath") setQualnetExePath(filePaths[0]);
 
     return filePaths[0];
   }
@@ -57,7 +61,6 @@ const handleFolderOpen = async (identifier: string) => {
   console.log(filePaths[0]);
   return filePaths[0];
 };
-
 
 const setSaveFolder = async (filePath: string) => {
   qualplot.save = filePath;
@@ -111,29 +114,36 @@ const maxNodeSaver = async (maxNode: number) => {
   fs.writeFileSync("./json/qualplot.json", settings);
 };
 
-const setQualnetExePath = async (path : string) => {
+const setQualnetExePath = async (path: string) => {
   qualplot.qualnet_path = path;
-  const settings : string | ArrayBufferView = JSON.stringify(
+  const settings: string | ArrayBufferView = JSON.stringify(
     qualplot,
     undefined,
     4
-  )
+  );
   fs.writeFileSync("./json/qualplot.json", settings);
-}
+};
+
+const spawnp = () => {
+  return new Promise((resolve) => {
+    const pyExecute = ChildProcess.spawn("python", [
+      "./electron/python/main.py",
+    ]);
+    pyExecute.stdout.setEncoding("utf8");
+    pyExecute.stdout.on("data", (data) => {
+      console.log(data);
+    });
+    pyExecute.on("close", (code) => {
+      console.log("Success");
+      resolve(0);
+    });
+  });
+};
 
 const pythonPipeLine = async () => {
-  ChildProcess.exec("python3 ./python/test.py",
-  (error : ChildProcess.ExecException | null, stdout: string, stderr: string) =>{
-      if(error){
-          console.error("stderr", stderr);
-          throw error;
-      }
-      console.log(stdout)
-      if(stdout === "Done"){
-          return 0;
-      }
-  });
-}
+  await spawnp();
+  return 0;
+};
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();
@@ -148,8 +158,8 @@ app.whenReady().then(() => {
   );
   ipcMain.handle("jsonshare", (event) => {
     return qualplot;
-  })
-  ipcMain.handle("pyexec", (event) => pythonPipeLine());
+  });
+  ipcMain.handle("pyexec", async (event) => pythonPipeLine());
   ipcMain.on("stseed", (event, startSeed: number) => stSeedSaver(startSeed));
   ipcMain.on("endseed", (event, endSeed: number) => endSeedSaver(endSeed));
   ipcMain.on("maxnode", (event, maxNode: number) => maxNodeSaver(maxNode));

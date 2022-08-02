@@ -31,3 +31,4 @@ if __name__ == "__main__":
     c.deleteCopyFiles()
     c.moveArchives()
     print("All Done")
+    sys.exit(0)
