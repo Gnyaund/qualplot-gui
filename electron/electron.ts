@@ -122,7 +122,7 @@ const setQualnetExePath = async (path : string) => {
 }
 
 const pythonPipeLine = async () => {
-  ChildProcess.exec("python3 ./src/python/main.py",
+  ChildProcess.exec("python3 ./python/test.py",
   (error : ChildProcess.ExecException | null, stdout: string, stderr: string) =>{
       if(error){
           console.error("stderr", stderr);

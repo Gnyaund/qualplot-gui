@@ -24,7 +24,7 @@ export default function StartButton () {
         const exec = await window.electronAPI.pyExec()
         
         if (exec === 0) {
-        pyExecute("Done");
+        setLoading(false);
         }
     }
     return (
