@@ -11,9 +11,15 @@ import * as fs from "fs";
 import qualplot from "./../json/qualplot.json";
 import * as ChildProcess from "child_process";
 import { Buffer } from "buffer";
-
+import { screen } from "electron";
 const createWindow = () => {
-  const win = new BrowserWindow({
+  let win = new BrowserWindow({
+    titleBarStyle: "hidden",
+    titleBarOverlay: {
+      color: "#464646",
+      symbolColor: "#FFFFFF",
+    },
+
     width: 800,
     height: 500,
 
@@ -22,8 +28,9 @@ const createWindow = () => {
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
+    frame: false,
   });
-
+  //    frame: false
   const appURL = app.isPackaged
     ? url.format({
         pathname: path.join(__dirname, "../index.html"),
@@ -127,7 +134,7 @@ const setQualnetExePath = async (path: string) => {
 const spawnp = () => {
   return new Promise((resolve) => {
     const pyExecute = ChildProcess.spawn("python", [
-      "./electron/python/main.py",
+      "./electron/python/test.py",
     ]);
     pyExecute.stdout.setEncoding("utf8");
     pyExecute.stdout.on("data", (data) => {
@@ -142,6 +149,12 @@ const spawnp = () => {
 
 const pythonPipeLine = async () => {
   await spawnp();
+  return 0;
+};
+
+const closeApp = async () => {
+  if (process.platform !== "darwin") app.quit();
+  console.log("goodbye");
   return 0;
 };
 
@@ -163,22 +176,14 @@ app.whenReady().then(() => {
   ipcMain.on("stseed", (event, startSeed: number) => stSeedSaver(startSeed));
   ipcMain.on("endseed", (event, endSeed: number) => endSeedSaver(endSeed));
   ipcMain.on("maxnode", (event, maxNode: number) => maxNodeSaver(maxNode));
-  /*
-  ipcMain.on("st-num", (event, arg) => {
-    const num = arg;
-    qualplot.start_seed = arg;
-  });
-  ipcMain.on("end-num", (event, arg) => {
-    const num = arg;
-    qualplot.end_seed = arg;
-  });
-  ipcMain.on("max-node", (event, arg) => {
-    const num = arg;
-    qualplot.max_node = arg;
-  });
-  */
+
   createWindow();
+
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
+});
+
+app.on("ready", () => {
+  ipcMain.handle("quitapp", (event) => closeApp);
 });

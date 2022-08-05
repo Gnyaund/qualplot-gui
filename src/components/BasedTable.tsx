@@ -3,14 +3,12 @@ import { CssBaseline, Grid } from "@mui/material";
 import { Box, Container } from "@mui/system";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material/styles";
-import { Button } from "@mui/material";
-import LoadingButton from "@mui/lab/LoadingButton";
-import "./../BasedTable.css";
 import VariableList from "./VariableList";
 import Uploader from "./Uploader";
-import IconButton from "@mui/material/IconButton";
 import SettingsModalWindow from "./SettingsModalWindow";
 import StartButton from "./StartButton";
+import FrameToolBar from "./FrameToolBar";
+import "./../BasedTable.css";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -19,33 +17,16 @@ const darkTheme = createTheme({
 
 //Uploader呼び出すとイベントが発生しないので子から親にイベント渡さないといけない？
 export default function BasedTable() {
-  const [path, setPath] = useState("");
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPath(() => e.target.value);
-  };
-
-  const [showSettings, setShowSettings] = useState(false);
-  const ShowSettings = () => {
-    setShowSettings(true);
-  };
-
-  const [Loading, setLoading] = useState(true);
-  const handleLoading = () => {
-    setLoading(true);
-  };
-
-
-
   return (
     <React.Fragment>
       <CssBaseline />
       <ThemeProvider theme={darkTheme}>
-        <Container >
+        <div className="conts">
+          <FrameToolBar />
           <Box
             sx={{
               width: "100%",
               height: "500px",
-              
             }}
           >
             <Grid
@@ -54,6 +35,7 @@ export default function BasedTable() {
               justifyContent="space-around"
               alignItems="center"
               paddingTop="70px"
+              className="itemgrid"
             >
               <Grid
                 sx={{
@@ -62,12 +44,14 @@ export default function BasedTable() {
                   fontFamily: "ROLAchan",
                 }}
               >
-                <Box sx={{ paddingBottom: "50px" }}>
-                  QualPlot
-                  <br></br>
-                  </Box>
+                <Box sx={{ paddingBottom: "50px" }}>QualPlot</Box>
               </Grid>
-              <Grid sx={{ bgcolor: "#252526", borderRadius: "15px" }}>
+              <Grid
+                sx={{
+                  bgcolor: "#252526",
+                  borderRadius: "15px",
+                }}
+              >
                 <VariableList />
               </Grid>
               <Grid>
@@ -83,7 +67,7 @@ export default function BasedTable() {
               </Grid>
             </Grid>
           </Box>
-        </Container>
+        </div>
       </ThemeProvider>
     </React.Fragment>
   );

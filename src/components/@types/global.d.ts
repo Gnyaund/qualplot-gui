@@ -4,6 +4,7 @@ export interface IElectronAPI {
   openFolder: (identifier: string) => Promise<string>;
   jsonShare: () => Promise<any>;
   pyExec: () => Promise<any>;
+  quitApp: () => Promise<void>;
   stSeed: (value: number) => Promise<any>;
   endSeed: (value: number) => Promise<any>;
   maxNode: (value: number) => Promise<any>;

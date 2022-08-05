@@ -1,9 +1,9 @@
 {
-    "save": "/home/gnya/wks/qualplot-gui",
+    "save": "D:\\Downloads\\case_study",
     "scenario_file_path": "",
     "start_seed": 1,
-    "end_seed": 4,
-    "max_node": 3,
-    "qualnet_path": "/home/gnya/wks/qualplot-gui/README.md",
+    "end_seed": 3,
+    "max_node": 5,
+    "qualnet_path": "C:\\Program Files\\Scalable\\qualnet\\7.4\\bin\\qualnet.exe",
     "default_path": "..\\..\\..\\..\\..\\..\\qualnet\\7.4\\bin\\qualnet.exe"
 }

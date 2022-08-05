@@ -1,0 +1,6 @@
+.FrameToolBar {
+  -webkit-app-region: drag;
+}
+.MuiButtonBase-root {
+  -webkit-app-region: no-drag;
+}
