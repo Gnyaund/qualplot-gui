@@ -7,8 +7,8 @@ import cv2
 from makecsv import MakeCSV
 
 class DataPlot(MakeCSV):
-    def __init__(self, start, end, node, PATH):
-        super().__init__(start, end, node, PATH)
+    def __init__(self, start, end, node, PATH, SCENARIO_PATH, SAVE_PATH):
+        super().__init__(start, end, node, PATH, SCENARIO_PATH, SAVE_PATH)
 
     def makeAnalysisFolder(self):
         if os.path.exists("analysis") == False:
@@ -94,5 +94,7 @@ class DataPlot(MakeCSV):
 
     def moveArchives(self):
         super().moveArchives()
-        shutil.move(".\\analysis", ".\\qualnetfiles\\archives\\" + self.casename)
-        shutil.move(".\\combinegraph", ".\\qualnetfiles\\archives\\" + self.casename)
+        shutil.move(".\\analysis", ".\\electron\\qualnetfiles\\archives\\" + self.casename)
+        shutil.copytree(".\\combinegraph", self.SAVE_PATH + "\\" + self.casename)
+        shutil.move(".\\combinegraph", ".\\electron\\qualnetfiles\\archives\\" + self.casename)
+        

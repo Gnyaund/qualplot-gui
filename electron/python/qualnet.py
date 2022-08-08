@@ -1,35 +1,37 @@
+from email.mime import base
 import subprocess
 import os
 import shutil
 import glob
 import json
+import sys
+
 
 class Qualnet:
-    def __init__(self, start, end, node, PATH):
+    def __init__(self, start, end, node, QUALNET_PATH, SCENARIO_PATH, SAVE_PATH):
         self.start = start
         self.end = end
         self.node = node
-        self.QUALNET_PATH = PATH
+        self.QUALNET_PATH = QUALNET_PATH
+        self.SCENARIO_PATH = SCENARIO_PATH
+        self.SAVE_PATH = SAVE_PATH
     
     def nameResolver(self):
         self.qualnetfiles_path = []
         self.basenames = []
-        configfile = []
-        for name in glob.glob(".\\qualnetfiles\\*.config"):
-            configfile.append(name)
+        scenario_path = self.SCENARIO_PATH
         
-        if len(configfile) > 2:
-            print("Do not put more than two .config files at qualnetfiles")
-            exit()
 
-        basename_ext = os.path.splitext(os.path.basename(configfile[0]))[0]
+        basename_ext = os.path.splitext(os.path.basename(scenario_path))[0]
         self.casename = basename_ext
-
-        for name in glob.glob(".\\qualnetfiles\\" + basename_ext + "*"):
+        scenario_folder_path = os.path.dirname(scenario_path)
+        for name in glob.glob(scenario_folder_path + "\\" + basename_ext + "*"):
             self.qualnetfiles_path.append(name)
 
         for name in self.qualnetfiles_path:
             self.basenames.append(os.path.basename(name))
+        
+
     
     def qualFilesCopy(self):
         for (qualfile, base) in zip(self.qualnetfiles_path, self.basenames):
@@ -56,7 +58,8 @@ class Qualnet:
         a = self.start
         name = self.casename
 
-        check = self.checkConnection()
+        #check = self.checkConnection()
+        check = "y"
 
         if (check == "n"):
             self.deleteCopyFiles()
@@ -69,7 +72,9 @@ class Qualnet:
                     i += 1
                     z = QUALNET_PATH + (" {0}.config seed{1} -seed {1}" .format(name, i))
                     returncode = subprocess.Popen(z, shell=True)
+                    sys.stdout.write("SubProcess?")
                     returncode.wait()
+                    
                 print("PROCESS END")
         else:
             self.executeQualnet()
@@ -78,15 +83,17 @@ class Qualnet:
         start = self.start
         end = self.end
         name = self.casename
-        if os.path.exists(".\\qualnetfiles\\archives") == False:
-            os.mkdir(".\\qualnetfiles\\archives")
-        if os.path.exists(".\\qualnetfiles\\archives\\" + name) == False:
-            os.mkdir((".\\qualnetfiles\\archives\\" + name))
+        qualpaths = self.qualnetfiles_path
+        bnames = self.basenames
+        if os.path.exists(".\\electron\\qualnetfiles\\archives") == False:
+            os.mkdir(".\\electron\\qualnetfiles\\archives")
+        if os.path.exists(".\\electron\\qualnetfiles\\archives\\" + name) == False:
+            os.mkdir((".\\electron\\qualnetfiles\\archives\\" + name))
         
         for i in range(start, end + 1):
-            shutil.move("seed{0}.db" .format(i), ".\\qualnetfiles\\archives\\" + name + "\\" + "seed{0}.db" .format(i))          
-            shutil.move("seed{0}.stat" .format(i), ".\\qualnetfiles\\archives\\" + name + "\\" + "seed{0}.stat" .format(i))
+            shutil.move("seed{0}.db" .format(i), ".\\electron\\qualnetfiles\\archives\\" + name + "\\" + "seed{0}.db" .format(i))          
+            shutil.move("seed{0}.stat" .format(i), ".\\electron\\qualnetfiles\\archives\\" + name + "\\" + "seed{0}.stat" .format(i))
         
-        for file in self.basenames:
-            shutil.move(".\\qualnetfiles\\" + file,".\\qualnetfiles\\archives\\"+ name + "\\" + file)
+        for (file, bname) in zip(qualpaths, bnames):
+            shutil.copy2(file,".\\electron\\qualnetfiles\\archives\\"+ name + "\\" + bname)
 

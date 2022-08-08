@@ -134,7 +134,7 @@ const setQualnetExePath = async (path: string) => {
 const spawnp = () => {
   return new Promise((resolve) => {
     const pyExecute = ChildProcess.spawn("python", [
-      "./electron/python/test.py",
+      "./electron/python/main.py",
     ]);
     pyExecute.stdout.setEncoding("utf8");
     pyExecute.stdout.on("data", (data) => {
