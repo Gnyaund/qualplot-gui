@@ -33,16 +33,16 @@ export default function LabelNameResolve(props: Props) {
         <MenuItem value={8}>8</MenuItem>
         <MenuItem value={9}>9</MenuItem>
         <MenuItem value={10}>10</MenuItem>
-        <MenuItem value={10}>11</MenuItem>
-        <MenuItem value={10}>12</MenuItem>
-        <MenuItem value={10}>13</MenuItem>
-        <MenuItem value={10}>14</MenuItem>
-        <MenuItem value={10}>15</MenuItem>
-        <MenuItem value={10}>16</MenuItem>
-        <MenuItem value={10}>17</MenuItem>
-        <MenuItem value={10}>18</MenuItem>
-        <MenuItem value={10}>19</MenuItem>
-        <MenuItem value={10}>20</MenuItem>
+        <MenuItem value={11}>11</MenuItem>
+        <MenuItem value={12}>12</MenuItem>
+        <MenuItem value={13}>13</MenuItem>
+        <MenuItem value={14}>14</MenuItem>
+        <MenuItem value={15}>15</MenuItem>
+        <MenuItem value={16}>16</MenuItem>
+        <MenuItem value={17}>17</MenuItem>
+        <MenuItem value={18}>18</MenuItem>
+        <MenuItem value={19}>19</MenuItem>
+        <MenuItem value={20}>20</MenuItem>
       </Select>
     </div>
   );

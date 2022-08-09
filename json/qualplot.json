@@ -1,9 +1,9 @@
 {
-    "save": "D:\\Downloads\\case_study",
-    "scenario_file_path": "",
-    "start_seed": 1,
-    "end_seed": 3,
-    "max_node": 5,
-    "qualnet_path": "C:\\Program Files\\Scalable\\qualnet\\7.4\\bin\\qualnet.exe",
-    "default_path": "..\\..\\..\\..\\..\\..\\qualnet\\7.4\\bin\\qualnet.exe"
+  "save": "",
+  "scenario_file_path": "",
+  "start_seed": 0,
+  "end_seed": 0,
+  "max_node": 0,
+  "qualnet_path": "..\\..\\..\\..\\..\\..\\qualnet\\7.4\\bin\\qualnet.exe",
+  "default_path": "..\\..\\..\\..\\..\\..\\qualnet\\7.4\\bin\\qualnet.exe"
 }
