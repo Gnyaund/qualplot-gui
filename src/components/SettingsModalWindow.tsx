@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import { TextField, Box, Grid, Paper } from "@mui/material";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import SettingsApplicationsOutlinedIcon from "@mui/icons-material/SettingsApplicationsOutlined";
-import RouterIcon from '@mui/icons-material/Router';
+import RouterIcon from "@mui/icons-material/Router";
 
 type Props = {
   showflag: boolean;
@@ -19,13 +19,13 @@ type Props = {
 };
 
 interface Settings {
-    save: string;
-    scenario_file_path: string;
-    start_seed: number;
-    end_seed: number;
-    max_node: number;
-    qualnet_path: string;
-    default_path: string;
+  save: string;
+  scenario_file_path: string;
+  start_seed: number;
+  end_seed: number;
+  max_node: number;
+  qualnet_path: string;
+  default_path: string;
 }
 export interface DialogTitleProps {
   id: string;
@@ -85,9 +85,9 @@ export default function SettingsModalWindow() {
   const handleClickgetJSONData = async () => {
     const data = await window.electronAPI.jsonShare();
     //console.log(data.qualnet_path)
-    setPath(() => data.save)
-    setqPath(() => data.qualnet_path)
-  }
+    setPath(() => data.save);
+    setqPath(() => data.qualnet_path);
+  };
   const handleClickOpenFolder = async () => {
     const savePath: string = await window.electronAPI.openFolder("saveFolder");
     setPath(() => savePath);
@@ -96,7 +96,12 @@ export default function SettingsModalWindow() {
   const handleClickOpenQualNet = async () => {
     const qualPath: string = await window.electronAPI.openFile("qualpath");
     setqPath(() => qualPath);
-  }
+  };
+
+  const handleClickOpenJson = async () => {
+    await window.electronAPI.openSettingJson();
+  };
+
   return (
     <div>
       <IconButton
@@ -116,7 +121,7 @@ export default function SettingsModalWindow() {
           Settings
         </BootstrapSettingWindow>
         <DialogContent dividers>
-          <Grid container spacing={2}>
+          <Grid container spacing={3}>
             <Grid item xs={2} md={6}>
               <IconButton
                 color="secondary"
@@ -144,6 +149,15 @@ export default function SettingsModalWindow() {
             </Grid>
             <Grid item xs={9} md={8}>
               <Paper sx={{ margin: 2 }}>{qpath}</Paper>
+            </Grid>
+            <Grid item md={6}>
+              <Button
+                color="secondary"
+                variant="outlined"
+                onClick={handleClickOpenJson}
+              >
+                Open Setting.json
+              </Button>
             </Grid>
           </Grid>
         </DialogContent>

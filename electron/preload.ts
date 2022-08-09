@@ -17,4 +17,5 @@ contextBridge.exposeInMainWorld("electronAPI", {
   endSeed: (endSeed: number) => ipcRenderer.send("endseed", endSeed),
   maxNode: (maxNode: number) => ipcRenderer.send("maxnode", maxNode),
   quitApp: () => ipcRenderer.send("quitapp"),
+  openSettingJson: () => ipcRenderer.invoke("dialog:openjson"),
 });

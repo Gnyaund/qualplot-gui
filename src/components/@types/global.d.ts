@@ -8,6 +8,7 @@ export interface IElectronAPI {
   stSeed: (value: number) => Promise<any>;
   endSeed: (value: number) => Promise<any>;
   maxNode: (value: number) => Promise<any>;
+  openSettingJson: () => Promise<any>;
 }
 
 declare global {
