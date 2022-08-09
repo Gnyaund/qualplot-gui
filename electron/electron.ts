@@ -1,19 +1,12 @@
-import {
-  app,
-  BrowserWindow,
-  ipcMain,
-  dialog,
-  IpcMainInvokeEvent,
-  shell,
-} from "electron";
+import { app, BrowserWindow, ipcMain, dialog } from "electron";
 import * as path from "path";
 import * as url from "url";
 import * as fs from "fs";
 import qualplot from "./../json/qualplot.json";
 import * as ChildProcess from "child_process";
-import { Buffer } from "buffer";
-import { screen } from "electron";
+
 const createWindow = () => {
+  //セキュリティ警告はおそらくtitleBarかframe周りなので大丈夫そう
   let win = new BrowserWindow({
     titleBarStyle: "hidden",
     titleBarOverlay: {
