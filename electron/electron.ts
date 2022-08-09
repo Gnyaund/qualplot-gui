@@ -152,12 +152,12 @@ const pythonPipeLine = async () => {
   await spawnp();
   return 0;
 };
-
+/*
 const openSettingJson = () => {
   const jsonPath = path.resolve("./json/qualplot.json");
   shell.openExternal(jsonPath);
 };
-
+*/
 const closeApp = async () => {
   if (process.platform !== "darwin") app.quit();
   console.log("goodbye");
@@ -182,7 +182,7 @@ app.whenReady().then(() => {
   ipcMain.on("stseed", (event, startSeed: number) => stSeedSaver(startSeed));
   ipcMain.on("endseed", (event, endSeed: number) => endSeedSaver(endSeed));
   ipcMain.on("maxnode", (event, maxNode: number) => maxNodeSaver(maxNode));
-  ipcMain.handle("dialog:openjson", (event) => openSettingJson());
+  //ipcMain.handle("dialog:openjson", (event) => openSettingJson());
   createWindow();
 
   app.on("activate", () => {

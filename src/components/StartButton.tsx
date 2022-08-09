@@ -1,11 +1,8 @@
-import React, { useState } from "react";
-import { CssBaseline, Grid } from "@mui/material";
-import { Box, Container } from "@mui/system";
+import { useState } from "react";
+import { Grid } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material/styles";
-import { Button } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import SendIcon from "@mui/icons-material/Send";
 
 export default function StartButton() {
   const darkTheme = createTheme({
@@ -54,9 +51,3 @@ export default function StartButton() {
     </ThemeProvider>
   );
 }
-
-/*
-        <Button variant="contained" component="label" color="secondary">
-        Start
-        </Button>
-*/

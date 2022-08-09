@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { CssBaseline, Grid } from "@mui/material";
-import { Box, Container } from "@mui/system";
+import { Box } from "@mui/system";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material/styles";
 import VariableList from "./VariableList";

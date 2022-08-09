@@ -4,29 +4,13 @@ import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import Typography from "@mui/material/Typography";
-import { TextField, Box, Grid, Paper } from "@mui/material";
+import { Grid, Paper } from "@mui/material";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import SettingsApplicationsOutlinedIcon from "@mui/icons-material/SettingsApplicationsOutlined";
 import RouterIcon from "@mui/icons-material/Router";
 
-type Props = {
-  showflag: boolean;
-  setShowSettings: Function;
-};
-
-interface Settings {
-  save: string;
-  scenario_file_path: string;
-  start_seed: number;
-  end_seed: number;
-  max_node: number;
-  qualnet_path: string;
-  default_path: string;
-}
 export interface DialogTitleProps {
   id: string;
   children?: React.ReactNode;
@@ -97,11 +81,11 @@ export default function SettingsModalWindow() {
     const qualPath: string = await window.electronAPI.openFile("qualpath");
     setqPath(() => qualPath);
   };
-
+  /*
   const handleClickOpenJson = async () => {
     await window.electronAPI.openSettingJson();
   };
-
+*/
   return (
     <div>
       <IconButton
@@ -150,15 +134,6 @@ export default function SettingsModalWindow() {
             <Grid item xs={9} md={8}>
               <Paper sx={{ margin: 2 }}>{qpath}</Paper>
             </Grid>
-            <Grid item md={6}>
-              <Button
-                color="secondary"
-                variant="outlined"
-                onClick={handleClickOpenJson}
-              >
-                Open Setting.json
-              </Button>
-            </Grid>
           </Grid>
         </DialogContent>
       </BootstrapDialog>
@@ -171,4 +146,14 @@ export default function SettingsModalWindow() {
             Save Changes
           </Button>
         </DialogActions>
+
+            <Grid item md={6}>
+              <Button
+                color="secondary"
+                variant="outlined"
+                onClick={handleClickOpenJson}
+              >
+                Open Setting.json
+              </Button>
+            </Grid>
         */
