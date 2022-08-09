@@ -35,4 +35,6 @@ class MakeCSV(Qualnet):
 
     def moveArchives(self):
         super().moveArchives()
-        shutil.move(".\\csv",".\\electron\\qualnetfiles\\archives\\" + self.casename)
+        archives_path = self.archives_path
+
+        shutil.move(".\\csv", archives_path + "\\" + self.savefolder)

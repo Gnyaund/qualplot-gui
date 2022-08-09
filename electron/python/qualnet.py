@@ -1,10 +1,10 @@
-from email.mime import base
 import subprocess
 import os
 import shutil
 import glob
 import json
 import sys
+import datetime
 
 
 class Qualnet:
@@ -15,15 +15,22 @@ class Qualnet:
         self.QUALNET_PATH = QUALNET_PATH
         self.SCENARIO_PATH = SCENARIO_PATH
         self.SAVE_PATH = SAVE_PATH
+        user = os.environ["USERNAME"]
+        self.qualplot_path = "C:\\Users\\"+ user + "\\Documents\\QualPlot-gui"
+        self.archives_path = "C:\\Users\\"+ user + "\\Documents\\QualPlot-gui\\archives"
+
     
     def nameResolver(self):
+
         self.qualnetfiles_path = []
         self.basenames = []
         scenario_path = self.SCENARIO_PATH
-        
+        timenow = datetime.datetime.now()
+        d = timenow.strftime('%Y-%m-%d-%H%M%S')
 
         basename_ext = os.path.splitext(os.path.basename(scenario_path))[0]
         self.casename = basename_ext
+        self.savefolder = d + "-" + self.casename
         scenario_folder_path = os.path.dirname(scenario_path)
         for name in glob.glob(scenario_folder_path + "\\" + basename_ext + "*"):
             self.qualnetfiles_path.append(name)
@@ -34,6 +41,8 @@ class Qualnet:
 
     
     def qualFilesCopy(self):
+        print(self.qualnetfiles_path)
+        print(self.basenames)
         for (qualfile, base) in zip(self.qualnetfiles_path, self.basenames):
             shutil.copy2(qualfile, ".\\" + base)
     
@@ -82,18 +91,24 @@ class Qualnet:
     def moveArchives(self):
         start = self.start
         end = self.end
-        name = self.casename
+        name = self.savefolder
         qualpaths = self.qualnetfiles_path
         bnames = self.basenames
-        if os.path.exists(".\\electron\\qualnetfiles\\archives") == False:
-            os.mkdir(".\\electron\\qualnetfiles\\archives")
-        if os.path.exists(".\\electron\\qualnetfiles\\archives\\" + name) == False:
-            os.mkdir((".\\electron\\qualnetfiles\\archives\\" + name))
+        
+        qualplot_path = self.qualplot_path
+        archives_path = self.archives_path
+
+        if os.path.exists(qualplot_path) == False:
+            os.mkdir(qualplot_path)
+        if os.path.exists(archives_path) == False:
+            os.mkdir(archives_path)
+        if os.path.exists(archives_path + "\\" + name) == False:
+            os.mkdir((archives_path + "\\" + name))
         
         for i in range(start, end + 1):
-            shutil.move("seed{0}.db" .format(i), ".\\electron\\qualnetfiles\\archives\\" + name + "\\" + "seed{0}.db" .format(i))          
-            shutil.move("seed{0}.stat" .format(i), ".\\electron\\qualnetfiles\\archives\\" + name + "\\" + "seed{0}.stat" .format(i))
+            shutil.move("seed{0}.db" .format(i), archives_path + "\\" + name + "\\" + "seed{0}.db" .format(i))          
+            shutil.move("seed{0}.stat" .format(i), archives_path + "\\" + name + "\\" + "seed{0}.stat" .format(i))
         
         for (file, bname) in zip(qualpaths, bnames):
-            shutil.copy2(file,".\\electron\\qualnetfiles\\archives\\"+ name + "\\" + bname)
+            shutil.copy2(file, archives_path + "\\" + name + "\\" + bname)
 

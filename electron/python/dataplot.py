@@ -94,7 +94,8 @@ class DataPlot(MakeCSV):
 
     def moveArchives(self):
         super().moveArchives()
-        shutil.move(".\\analysis", ".\\electron\\qualnetfiles\\archives\\" + self.casename)
-        shutil.copytree(".\\combinegraph", self.SAVE_PATH + "\\" + self.casename)
-        shutil.move(".\\combinegraph", ".\\electron\\qualnetfiles\\archives\\" + self.casename)
+        archives_path = self.archives_path
+        shutil.move(".\\analysis", archives_path + "\\" + self.savefolder)
+        shutil.copytree(".\\combinegraph", self.SAVE_PATH + "\\" + self.savefolder)
+        shutil.move(".\\combinegraph", archives_path + "\\" + self.savefolder)
         
