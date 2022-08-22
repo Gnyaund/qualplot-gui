@@ -1,70 +1,76 @@
-import React, {useState} from "react";
+import React from "react";
 import { CssBaseline, Grid } from "@mui/material";
-import { Box, Container } from "@mui/system";
+import { Box } from "@mui/system";
 import { ThemeProvider } from "@emotion/react";
-import { createTheme } from '@mui/material/styles'
-import { Button } from "@mui/material";
-import "./../BasedTable.css";
+import { createTheme } from "@mui/material/styles";
 import VariableList from "./VariableList";
 import Uploader from "./Uploader";
-
-import IconButton from '@mui/material/IconButton';
 import SettingsModalWindow from "./SettingsModalWindow";
-
+import StartButton from "./StartButton";
+import FrameToolBar from "./FrameToolBar";
+import "./../BasedTable.css";
 const darkTheme = createTheme({
-    palette: {
-        mode: "dark",
-    }
-})
+  palette: {
+    mode: "dark",
+  },
+});
 
 //Uploader呼び出すとイベントが発生しないので子から親にイベント渡さないといけない？
-export default function BasedTable(){
-    const [path, setPath] = useState("")
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPath(() => e.target.value)
-    }
-
-    const [showSettings, setShowSettings] = useState(false);
-    const ShowSettings = () => {
-        setShowSettings(true);
-    }
-
-    return(
-        <React.Fragment>
-            <CssBaseline />
-            <ThemeProvider theme={darkTheme}>
-            <Container >
-                <Box sx={{bgcolor:"#1E1E1E", width:"100%", height:"auto", paddingBottom:"20px"}}>
-                    <Grid container direction="column" justifyContent="space-around"
-                    alignItems="center" paddingTop="70px">
-                        <Grid sx={{textAlign:"center", fontSize:"45px", fontFamily:"ROLAchan"}}>
-                            <Box sx={{paddingBottom: "50px"}}>
-                                QualPlot
-                            </Box>
-                        </Grid>
-                        <Grid sx={{bgcolor:"#252526", borderRadius:"15px"}}>
-                            <VariableList />
-                        </Grid>
-                        <Grid>
-                            <Box sx={{display:"flex", padding: "10px", }}>
-                                <Uploader />
-                            </Box>
-                            
-                        </Grid>
-                        <Grid>
-                            <Button variant="contained" component="label" color="secondary">
-                                Start
-                            </Button>
-                        </Grid>
-                        <Grid>
-                            <SettingsModalWindow></SettingsModalWindow>
-                        </Grid>
-                    </Grid>
+export default function BasedTable() {
+  return (
+    <React.Fragment>
+      <CssBaseline />
+      <ThemeProvider theme={darkTheme}>
+        <div className="conts">
+          <FrameToolBar />
+          <Box
+            sx={{
+              width: "100%",
+              height: "500px",
+            }}
+          >
+            <Grid
+              container
+              direction="column"
+              justifyContent="space-around"
+              alignItems="center"
+              paddingTop="70px"
+              className="itemgrid"
+            >
+              <Grid
+                sx={{
+                  textAlign: "center",
+                  fontSize: "45px",
+                  fontFamily: "ROLAchan",
+                }}
+              >
+                <Box sx={{ paddingBottom: "50px" }}>QualPlot</Box>
+              </Grid>
+              <Grid
+                sx={{
+                  bgcolor: "#252526",
+                  borderRadius: "15px",
+                }}
+              >
+                <VariableList />
+              </Grid>
+              <Grid>
+                <Box sx={{ display: "flex", padding: "10px" }}>
+                  <Uploader />
                 </Box>
-            </Container>
-            </ThemeProvider>
-        </React.Fragment>
-    )
+              </Grid>
+              <Grid>
+                <StartButton />
+              </Grid>
+              <Grid>
+                <SettingsModalWindow></SettingsModalWindow>
+              </Grid>
+            </Grid>
+          </Box>
+        </div>
+      </ThemeProvider>
+    </React.Fragment>
+  );
 }
 /*
                 <Box sx={{bgcolor:"#1E1E1E", width:"100%", height:"auto", paddingBottom:"20px"}}>

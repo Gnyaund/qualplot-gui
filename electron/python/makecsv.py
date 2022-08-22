@@ -2,12 +2,12 @@ import os
 import sqlite3
 import shutil
 import csv
-from lib.qualnet import Qualnet
+from qualnet import Qualnet
 
 
 class MakeCSV(Qualnet):
-    def __init__(self, start, end, node, PATH):
-         super().__init__(start, end, node, PATH)
+    def __init__(self, start, end, node, PATH, SCENARIO_PATH, SAVE_PATH):
+         super().__init__(start, end, node, PATH, SCENARIO_PATH, SAVE_PATH)
 
     def makeCsvFolder(self):
         if os.path.exists("csv") == False:
@@ -35,4 +35,6 @@ class MakeCSV(Qualnet):
 
     def moveArchives(self):
         super().moveArchives()
-        shutil.move(".\\csv",".\\qualnetfiles\\archives\\" + self.casename)
+        archives_path = self.archives_path
+
+        shutil.move(".\\csv", archives_path + "\\" + self.savefolder)

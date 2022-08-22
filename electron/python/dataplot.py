@@ -4,11 +4,11 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
-from lib.makecsv import MakeCSV
+from makecsv import MakeCSV
 
 class DataPlot(MakeCSV):
-    def __init__(self, start, end, node, PATH):
-        super().__init__(start, end, node, PATH)
+    def __init__(self, start, end, node, PATH, SCENARIO_PATH, SAVE_PATH):
+        super().__init__(start, end, node, PATH, SCENARIO_PATH, SAVE_PATH)
 
     def makeAnalysisFolder(self):
         if os.path.exists("analysis") == False:
@@ -94,5 +94,8 @@ class DataPlot(MakeCSV):
 
     def moveArchives(self):
         super().moveArchives()
-        shutil.move(".\\analysis", ".\\qualnetfiles\\archives\\" + self.casename)
-        shutil.move(".\\combinegraph", ".\\qualnetfiles\\archives\\" + self.casename)
+        archives_path = self.archives_path
+        shutil.move(".\\analysis", archives_path + "\\" + self.savefolder)
+        shutil.copytree(".\\combinegraph", self.SAVE_PATH + "\\" + self.savefolder)
+        shutil.move(".\\combinegraph", archives_path + "\\" + self.savefolder)
+        
