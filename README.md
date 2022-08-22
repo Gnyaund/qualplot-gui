@@ -6,6 +6,10 @@ Qualnet で書き出したデータをグラフに起こすやつの GUI 版で�
 
 Qualnet の File 群(.app, .config, .display, .nodes)を使って，.db，.stat データの生成 → グラフの生成までを自動的にやってくれるツールです．
 
+<div style = "text-align:center">
+  <img src="https://cdn.discordapp.com/attachments/381775156168884224/1011098498894155846/unknown.png" width="800">
+</div>
+
 <!-- BEGIN EXCLUDED SECTION -->
 
 - [Getting Started](#getting-started)
@@ -92,7 +96,7 @@ START を押すと裏で勝手に始まるので，Done が出たらおしまい
 
 ## Version History
 
-- 0.1
+- 1.0.0
   - Initial Release
 
 ## License
