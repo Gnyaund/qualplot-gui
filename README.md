@@ -38,7 +38,7 @@ Qualnet の File 群(.app, .config, .display, .nodes)を使って，.db，.stat 
 
 ### Installing
 
-- Releases から Zip でダウンロード([ここから](https://github.com/Gnyaund/QualPlot/archive/refs/heads/main.zip))して，任意のディレクトリに移動させて展開しておく．
+- Releases から Zip でダウンロードして，任意のディレクトリに移動させて展開しておく．
 
 - Anaconda 入れた直後などで OpenCSV がない場合は，
 
