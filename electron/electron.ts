@@ -2,10 +2,77 @@ import { app, BrowserWindow, ipcMain, dialog } from "electron";
 import * as path from "path";
 import * as url from "url";
 import * as fs from "fs";
-import qualplot from "./../json/qualplot.json";
+
 import * as ChildProcess from "child_process";
+import Store from "electron-store";
+
+interface setting {
+  save: string;
+  scenario_file_path: string;
+  start_seed: number;
+  end_seed: number;
+  max_node: number;
+  qualnet_path: string;
+  default_path: string;
+}
+
+const store = new Store();
+/*
+const store = new Store<setting>({
+  cwd: app.getPath("userData"),
+  name: "settings",
+  fileExtension: "json",
+  schema: {
+    save: {
+      type: "string",
+    },
+    scenario_file_path: {
+      type: "string",
+    },
+    start_seed: {
+      type: "number",
+    },
+    end_seed: {
+      type: "number",
+    },
+    max_node: {
+      type: "number",
+    },
+    qualnet_path: {
+      type: "string",
+    },
+    default_path: {
+      type: "string",
+    },
+  },
+});
+*/
+
+const getSettings = () => {
+  const save = String(store.get("save"));
+  const scena = String(store.get("scenario_file_path"));
+  const stsd = Number(store.get("start_seed"));
+  const endsd = Number(store.get("end_seed"));
+  const mxnd = Number(store.get("max_node"));
+  const qualp = String(store.get("qualnet_path"));
+  const defp = String(store.get("default_path"));
+
+  return {
+    save: save,
+    scenario_file_path: scena,
+    start_seed: stsd,
+    end_seed: endsd,
+    max_node: mxnd,
+    qualnet_path: qualp,
+    default_path: defp,
+  };
+};
 
 const createWindow = () => {
+  store.set(
+    "default_path",
+    "..\\..\\..\\..\\..\\..\\qualnet\\7.4\\bin\\qualnet.exe"
+  );
   //セキュリティ警告はおそらくtitleBarかframe周りなので大丈夫そう
   let win = new BrowserWindow({
     titleBarStyle: "hidden",
@@ -64,65 +131,29 @@ const handleFolderOpen = async (identifier: string) => {
 };
 
 const setSaveFolder = async (filePath: string) => {
-  qualplot.save = filePath;
-  const settings: string | ArrayBufferView = JSON.stringify(
-    qualplot,
-    undefined,
-    4
-  );
-  fs.writeFileSync("./json/qualplot.json", settings);
+  store.set("save", filePath);
   return filePath;
 };
 
 const setScenarioFile = async (filePath: string) => {
-  qualplot.scenario_file_path = filePath;
-  const settings: string | ArrayBufferView = JSON.stringify(
-    qualplot,
-    undefined,
-    4
-  );
-  fs.writeFileSync("./json/qualplot.json", settings);
+  store.set("scenario_file_path", filePath);
   return 0;
 };
 
 const stSeedSaver = async (stSeed: number) => {
-  qualplot.start_seed = stSeed;
-  const settings: string | ArrayBufferView = JSON.stringify(
-    qualplot,
-    undefined,
-    4
-  );
-  fs.writeFileSync("./json/qualplot.json", settings);
+  store.set("start_seed", stSeed);
 };
 
 const endSeedSaver = async (endSeed: number) => {
-  qualplot.end_seed = endSeed;
-  const settings: string | ArrayBufferView = JSON.stringify(
-    qualplot,
-    undefined,
-    4
-  );
-  fs.writeFileSync("./json/qualplot.json", settings);
+  store.set("end_seed", endSeed);
 };
 
 const maxNodeSaver = async (maxNode: number) => {
-  qualplot.max_node = maxNode;
-  const settings: string | ArrayBufferView = JSON.stringify(
-    qualplot,
-    undefined,
-    4
-  );
-  fs.writeFileSync("./json/qualplot.json", settings);
+  store.set("max_node", maxNode);
 };
 
 const setQualnetExePath = async (path: string) => {
-  qualplot.qualnet_path = path;
-  const settings: string | ArrayBufferView = JSON.stringify(
-    qualplot,
-    undefined,
-    4
-  );
-  fs.writeFileSync("./json/qualplot.json", settings);
+  store.set("qualnet_path", path);
 };
 
 const spawnp = () => {
@@ -169,7 +200,8 @@ app.whenReady().then(() => {
     handleFolderOpen(identifier)
   );
   ipcMain.handle("jsonshare", (event) => {
-    return qualplot;
+    const info = getSettings();
+    return info;
   });
   ipcMain.handle("pyexec", async (event) => pythonPipeLine());
   ipcMain.on("stseed", (event, startSeed: number) => stSeedSaver(startSeed));
