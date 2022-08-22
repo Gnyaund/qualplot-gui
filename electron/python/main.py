@@ -2,10 +2,13 @@ from dataplot import DataPlot
 import sys
 import json
 import warnings
+import os
 
 if __name__ == "__main__":
     warnings.simplefilter('ignore', FutureWarning)
-    jopen = open(".\\json\\qualplot.json", "r")
+    APPDATA = os.getenv("APPDATA")
+    dir = APPDATA + "\\qualplot-gui\\config.json"
+    jopen = open(dir, "r")
     config = json.load(jopen)
     QUALNET_PATH = config["qualnet_path"]
     SCENARIO_PATH = config["scenario_file_path"]

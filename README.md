@@ -1,46 +1,106 @@
-# Getting Started with Create React App
+# QualPlot-gui
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Qualnet で書き出したデータをグラフに起こすやつの GUI 版です
 
-## Available Scripts
+## なにこれ？
 
-In the project directory, you can run:
+Qualnet の File 群(.app, .config, .display, .nodes)を使って，.db，.stat データの生成 → グラフの生成までを自動的にやってくれるツールです．
 
-### `npm start`
+<!-- BEGIN EXCLUDED SECTION -->
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- [Getting Started](#getting-started)
+  - [Dependencies](#dependencies)
+    - [テスト環境](#テスト環境)
+  - [Installing](#installing)
+  - [Executing program](#executing-program)
+- [Help](#help)
+- [Special Thanks](#special-thanks)
+- [License](#license)
+<!-- END EXCLUDED SECTION -->
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Getting Started
 
-### `npm test`
+### Dependencies
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Anaconda Environment and Python 3.9.x
+- Qualnet Ver.7
+- Windows 11
 
-### `npm run build`
+#### テスト環境
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Windows 11 Home 21H2
+- Python 3.9.12 + Anaconda
+- QualNet Developer Version 7.4 (201508241)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Installing
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Releases から Zip でダウンロード([ここから](https://github.com/Gnyaund/QualPlot/archive/refs/heads/main.zip))して，任意のディレクトリに移動させて展開しておく．
 
-### `npm run eject`
+- Anaconda 入れた直後などで OpenCSV がない場合は，
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```
+pip install opencsv-python
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Executing program
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+#### 初期設定
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- qualplot-gui.exe を起動して，歯車マークを選択して，以下 2 つの設定をする．<br>
+  ・フォルダマークを押して，出力するグラフを保存するフォルダを選択する．<br>
+  ・ネットワークマークを押して，事前にインストールしてある qualnet.exe を選択する．
 
-## Learn More
+#### 使い方
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- メインメニューの SCENARIO FILE を押して，.app, .config, .display, .nodes のいずれかのファイルを選択する．その後，
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+SEED START
+
+SEED END
+
+MAX NODE
+```
+
+に，任意の値を入力してください．
+
+START を押すと裏で勝手に始まるので，Done が出たらおしまい<br>
+シナリオファイルの名前に実行時の時刻の名前がついたフォルダが保存先にできているのでそこを参照
+
+- 完成イメージ
+<div style = "text-align:center">
+  <img src="https://user-images.githubusercontent.com/54770195/172841049-1bb7b2ae-41e4-4de8-9af7-70c488454c3d.jpg" width="400">
+</div>
+
+## Help
+
+- 途中経過に出てきたファイルがほしい<br>
+  ドキュメントフォルダに勝手に QualPlot-gui が生えてくるようにしているのでそこにアーカイブとして保存されています
+
+- config ファイルどこ？
+
+```
+  ~/AppData/Roaming/qualplot-gui/config.json
+```
+
+- START 押したらすぐ Done でてきてなんも起こらないんですけど・・・<br>
+  大体 QualNet のライセンスが通ってない時に起こるので，ネットワーク環境を変えてみたり，ライセンスに何か問題があるかも　 QualPlot に問題があるときは優しく教えてください
+
+## Special Thanks
+
+プログラムの本質的な部分のコードを作ってくれた研究室の関係者の方に感謝
+
+## Version History
+
+- 0.1
+  - Initial Release
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE.md file for details
+
+## 使ったものメモ
+
+- React
+- Electron
+- Material-UI

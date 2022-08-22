@@ -16,11 +16,9 @@ interface setting {
   default_path: string;
 }
 
-const store = new Store();
-/*
 const store = new Store<setting>({
   cwd: app.getPath("userData"),
-  name: "settings",
+  name: "config",
   fileExtension: "json",
   schema: {
     save: {
@@ -46,7 +44,6 @@ const store = new Store<setting>({
     },
   },
 });
-*/
 
 const getSettings = () => {
   const save = String(store.get("save"));
