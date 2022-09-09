@@ -40,10 +40,10 @@ Qualnet の File 群(.app, .config, .display, .nodes)を使って，.db，.stat 
 
 - Releases から Zip でダウンロードして，任意のディレクトリに移動させて展開しておく．
 
-- Anaconda 入れた直後などで OpenCSV がない場合は，
+- Anaconda 入れた直後などで OpenCV がない場合は，
 
 ```
-pip install opencsv-python
+pip install opencv-python
 ```
 
 ### Executing program
